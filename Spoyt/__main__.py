@@ -5,7 +5,7 @@ from discord import Client, Intents, Message, Embed, Color, \
     ActivityType, Activity, NotFound, Forbidden
 
 from Spoyt.spotify_api import search_spotify, model_track, TrackEmbed
-from Spoyt.youtube_api import create_youtube, search_youtube
+from Spoyt.youtube_api import find_youtube_id
 
 
 def main():
@@ -24,7 +24,6 @@ def main():
                 type=ActivityType.listening
             )
         )
-        client.youtube = create_youtube()
 
     @client.event
     async def on_message(message: Message):
@@ -63,10 +62,17 @@ def main():
             color=Color.blurple()
         )])
 
-        video_id = search_youtube(
-            youtube=client.youtube,
+        video_id_found, result = find_youtube_id(
             query='{} {}'.format(track.name, ' '.join(track.artists))
         )
+
+        if not video_id_found:
+            await msg.edit(embeds=[track_embed, Embed(
+                title='Video not found',
+                description=result,
+                color=Color.dark_red()
+            )])
+            return
 
         await msg.edit(embeds=[track_embed, Embed(
                 title='Best YouTube result',
@@ -74,7 +80,7 @@ def main():
         )])
 
         await message.channel.send(
-            content=f'https://www.youtube.com/watch?v={video_id}'
+            content=f'https://www.youtube.com/watch?v={result}'
         )
 
     client.run(getenv('BOT_TOKEN'))
