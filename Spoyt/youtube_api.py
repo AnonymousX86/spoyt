@@ -12,14 +12,12 @@ def find_youtube_id(query: str) -> [bool, str]:
         '&part=snippet'
         '&maxResults=1'
         '&q={}'.format(
-            # getenv('YOUTUBE_API_KEY'),
-            '',
+            getenv('YOUTUBE_API_KEY'),
             query
         )
     )
     content = json_loads(yt_r.content)
-    breakpoint()
-    if (error_code := content['error']['code']) == 200:
+    if (error_code := yt_r.status_code) == 200:
         data = content['items'][0]['id']['videoId']
     elif error_code == 403:
         data = 'Bot is not set properly.' \
