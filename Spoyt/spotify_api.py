@@ -22,7 +22,7 @@ class Track:
 
     @property
     def is_single_artist(self):
-        return len(self.artists) > 1
+        return len(self.artists) == 1
 
     @property
     def track_url(self):
