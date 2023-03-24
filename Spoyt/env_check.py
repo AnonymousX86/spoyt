@@ -4,14 +4,17 @@ from os import environ, getenv
 from Spoyt.logging import log
 
 
-def current_platfrom() -> str:
+def current_platform() -> str:
     return getenv('PLATFORM', 'unknown')
 
+
 def is_discord() -> bool:
-    return current_platfrom() == 'discord'
+    return current_platform() == 'discord'
+
 
 def is_guilded() -> bool:
-    return current_platfrom() == 'guilded'
+    return current_platform() == 'guilded'
+
 
 def check_platform(source: str, platform: str) -> bool:
     if source.lower().endswith(platform.lower()):
@@ -19,6 +22,7 @@ def check_platform(source: str, platform: str) -> bool:
         log.info(f'Automatically set "PLATFORM" to "{platform}"')
         return True
     return False
+
 
 def auto_set_platform(source: str) -> bool:
     for platform in ['guilded', 'discord']:

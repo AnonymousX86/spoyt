@@ -7,7 +7,6 @@ from rich.logging import RichHandler
 from Spoyt.logging import log
 from Spoyt.wrapper import main
 
-
 if __name__ == '__main__':
     basicConfig(
         level=INFO,

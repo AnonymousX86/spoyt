@@ -5,7 +5,6 @@ from rich.logging import RichHandler
 
 from Spoyt.logging import log
 
-
 if __name__ == '__main__':
     basicConfig(
         level=INFO,

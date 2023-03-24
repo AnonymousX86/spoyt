@@ -11,6 +11,6 @@ elif is_guilded():
 else:
     DEFAULT = 0xCCCCCC
 
-GREEN    = 0x2ECC71
-RED      = 0xFF0000
+GREEN = 0x2ECC71
+RED = 0xFF0000
 DARK_RED = 0x992D22

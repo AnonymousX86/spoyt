@@ -24,9 +24,9 @@ class BaseGuildedEmbed(GuiledEmbed):
 
 class EmbedField:
     def __init__(
-            self, 
-            name: str, 
-            value: str, 
+            self,
+            name: str,
+            value: str,
             inline: bool = True
     ) -> None:
         self.name = name
@@ -36,9 +36,9 @@ class EmbedField:
 
 class EmbedDict:
     def __init__(
-            self, 
-            title: str = None, 
-            description: str = None, 
+            self,
+            title: str = None,
+            description: str = None,
             color: int = DEFAULT,
             fields: list[EmbedField] = [],
             thumbnail_url: str = None
@@ -52,8 +52,8 @@ class EmbedDict:
 
 def markdown_url(url: str) -> str:
     return (
-        '<{0}>' if is_discord() else 
-        '[{0}]({0})' if is_guilded() else 
+        '<{0}>' if is_discord() else
+        '[{0}]({0})' if is_guilded() else
         '{0}'
     ).format(url)
 
@@ -77,6 +77,7 @@ def track_to_embed(track: Track) -> EmbedDict:
         thumbnail_url=track.album_url
     )
 
+
 def video_to_embed(video: YouTubeResult) -> EmbedDict:
     return EmbedDict(
         title=video.title,
@@ -94,6 +95,7 @@ def video_to_embed(video: YouTubeResult) -> EmbedDict:
         ],
         thumbnail_url=video.video_thumbnail
     )
+
 
 LINK_FOUND = EmbedDict(
     title='\u23f3 Spotify link found!',
