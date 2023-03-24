@@ -9,6 +9,10 @@ the track in Spotify database, and search its name and artists in YouTube.
 If possible, it will try to delete your message, but you can disable it
 by permitting permissions.
 
+Invite the bot by one of following links:
+- Discord: https://discord.com/api/oauth2/authorize?client_id=948274806325903410&permissions=3072&scope=bot
+- Guilded: https://www.guilded.gg/b/93177486-3a1d-4464-a202-1ddd6354844b
+
 ## Support
 
 You can join one of my servers (or both):
