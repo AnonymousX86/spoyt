@@ -7,13 +7,13 @@ on:
 
 jobs:
   host:
-    name: Host
+    name: Host Spoyt on Discord
     runs-on: self-hosted
     steps:
     - name: Create and start virtual environment
       run: |
         python -m venv venv
-        source venv/Scripts/activate
+        .\venv\Scripts\activate
 
     - name: Install dependencies
       run: |
