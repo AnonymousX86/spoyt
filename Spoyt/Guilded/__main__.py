@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from logging import INFO, basicConfig
 
+from guilded import Client
 from rich.logging import RichHandler
 
 from Spoyt.logging import log
+from Spoyt.wrapper import main
 
 
 if __name__ == '__main__':
@@ -13,6 +15,6 @@ if __name__ == '__main__':
         datefmt='[%x]',
         handlers=[RichHandler(rich_tracebacks=True)]
     )
-    log.info('This is general Spoyt module.')
-    log.info('To run specific bot please run "Discord" or "Guilded" module.')
-    log.info('Remember to set "BOT_TOKEN" environment variables.')
+    log.info('Starting Guilded bot')
+    client = Client()
+    main(client, __package__)
