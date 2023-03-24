@@ -9,8 +9,7 @@ jobs:
   host:
     name: Host
     runs-on: self-hosted
-
-  steps:
+    steps:
     - name: Create and start virtual environment
       run: |
         python -m venv venv
