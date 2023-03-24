@@ -9,6 +9,8 @@ jobs:
   host:
     name: Host Spoyt on Discord
     runs-on: self-hosted
+    env:
+      BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
