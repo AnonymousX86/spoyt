@@ -1,3 +1,5 @@
 discord.py
+guilded.py
+rich
 requests
 spotipy
