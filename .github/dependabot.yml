@@ -3,6 +3,8 @@ updates:
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
     assignees:
       - "AnonymousX86"
+    open-pull-requests-limit: 3
+    target-branch: "main"
