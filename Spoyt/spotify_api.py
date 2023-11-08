@@ -11,15 +11,15 @@ class Track:
             self,
             name: str,
             track_id: str,
-            artists: str or list[str],
+            artists: list[str],
             release_date: str,
             album_url: str
     ):
-        self.name = name
-        self.track_id = track_id
-        self.artists = artists
-        self.release_date = release_date
-        self.album_url = album_url
+        self.name: str = name
+        self.track_id: str = track_id
+        self.artists: list[str] = artists
+        self.release_date: str = release_date
+        self.album_url: str = album_url
 
     @property
     def is_single_artist(self):
