@@ -2,10 +2,13 @@
 from discord import Embed as DiscordEmbed, Color as DiscordColor
 from guilded import Embed as GuiledEmbed, Color as GuildedColor
 
-from Spoyt.embeds.color import DEFAULT, DARK_RED, GREEN, RED
+from Spoyt.embeds.color import DEFAULT, DARK_RED, GREEN, RED, GOLD
 from Spoyt.env_check import is_discord, is_guilded
-from Spoyt.spotify_api import Track
+from Spoyt.spotify_api import Playlist, Track
 from Spoyt.youtube_api import YouTubeResult
+
+
+MAX_QUERY = 10
 
 
 class BaseDiscordEmbed(DiscordEmbed):
@@ -40,14 +43,20 @@ class EmbedDict:
             title: str = None,
             description: str = None,
             color: int = DEFAULT,
-            fields: list[EmbedField] = [],
             thumbnail_url: str = None
     ) -> None:
         self.title = title
         self.description = description
         self.color = color
-        self.fields = fields
+        self._fields = []
         self.thumbnail_url = thumbnail_url
+
+    def add_field(self, name: str, value: str, inline: bool = True) -> None:
+        self._fields.append(EmbedField(name, value, inline))
+
+    @property
+    def fields(self) -> list[EmbedField]:
+        return self._fields.copy()
 
 
 def markdown_url(url: str) -> str:
@@ -59,23 +68,51 @@ def markdown_url(url: str) -> str:
 
 
 def track_to_embed(track: Track) -> EmbedDict:
-    return EmbedDict(
+    em = EmbedDict(
         title=track.name,
         description=markdown_url(track.track_url),
         color=GREEN,
-        fields=[
-            EmbedField(
-                name='Artist{}'.format('' if track.is_single_artist else 's'),
-                value=', '.join(track.artists),
-                inline=track.is_single_artist
-            ),
-            EmbedField(
-                name='Released',
-                value=track.release_date
-            )
-        ],
-        thumbnail_url=track.album_url
+        thumbnail_url=track.cover_url
     )
+    em.add_field(
+        name='Artist{}'.format('' if track.is_single_artist else 's'),
+        value=', '.join(track.artists),
+        inline=track.is_single_artist
+    )
+    em.add_field(
+        name='Released',
+        value=track.release_date
+    )
+    return em
+
+
+def playlist_to_embed(playlist: Playlist) -> EmbedDict:
+    if (d := playlist.description):
+        description = f'{d}\n\n{playlist.url}'
+    else:
+        description = playlist.playlist_url
+    em = EmbedDict(
+        title=playlist.name,
+        description=description,
+        color=GREEN,
+        thumbnail_url=playlist.cover_url
+    )
+    em.add_field(
+        name='Owner',
+        value=f'[{playlist.owner_name}]({playlist.owner_url})',
+        inline=False
+    )
+    first_tracks = '\n'.join(map(
+        lambda a: f'- [{a.name}]({a.track_url})',
+        playlist.tracks[:MAX_QUERY]
+    ))
+    if (tr := playlist.total_tracks) > MAX_QUERY:
+        first_tracks += f'\nAnd {tr - MAX_QUERY} more.'
+    em.add_field(
+        name='Tracks',
+        value=first_tracks
+    )
+    return em
 
 
 def video_to_embed(video: YouTubeResult) -> EmbedDict:
@@ -101,13 +138,13 @@ LINK_FOUND = EmbedDict(
     title='\u23f3 Spotify link found!',
     description='Connecting to super secret database\u2026',
     color=GREEN
-),
+)
 
 SPOTIFY_UNREACHABLE = EmbedDict(
     title='Oh no',
     description='Spotify is out of service',
     color=RED
-),
+)
 
 SEARCHING_YOUTUBE = EmbedDict(
     title='\u23f3 Searching YouTube'
@@ -116,4 +153,15 @@ SEARCHING_YOUTUBE = EmbedDict(
 VIDEO_NOT_FOUND = EmbedDict(
     title='Video not found',
     color=DARK_RED
+)
+
+FUNCTION_NOT_AVAILABLE = EmbedDict(
+    title='\u274c Function is currently unavailable',
+    color=DARK_RED
+)
+
+FUNCTION_IN_DEVELOPMENT = EmbedDict(
+    title='\U0001f6e0 Function is under construction',
+    description='Please check debug console for output',
+    color=GOLD
 )

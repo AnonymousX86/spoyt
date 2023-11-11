@@ -23,3 +23,5 @@ def create_embed(data: EmbedDict) -> BaseDiscordEmbed or BaseGuildedEmbed:
         )
     if url := data.thumbnail_url:
         embed.set_thumbnail(url=url)
+
+    return embed
