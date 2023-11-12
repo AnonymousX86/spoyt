@@ -143,6 +143,7 @@ class YouTubeVideoEmbed(BaseEmbed):
         super().__init__(*args, **kwargs)
         self.title=video.title
         self.description=markdown_url(video.video_link)
+        self.color = Color.dark_red()
         self.set_thumbnail(url=video.video_thumbnail)
         self.add_field(
             name='Description',
