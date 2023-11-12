@@ -46,7 +46,7 @@ if __name__ == '__main__':
         ctx: ApplicationContext,
         url: Option(
             input_type=str,
-            name='URL',
+            name='url',
             description='Starts with "https://open.spotify.com/track/..."',
             required=True
         )
@@ -88,7 +88,7 @@ if __name__ == '__main__':
         ctx: ApplicationContext,
         url: Option(
             input_type=str,
-            name='URL',
+            name='url',
             description='Starts with "https://open.spotify.com/playlist/..."',
             required=True
         )
