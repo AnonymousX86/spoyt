@@ -52,14 +52,14 @@ if __name__ == '__main__':
         )
     ) -> None:
         if not url.startswith('https://open.spotify.com/track/'):
-            await ctx.respond(embed=IncorrectInputEmbed)
+            await ctx.respond(embed=IncorrectInputEmbed())
             return
 
         track_id = url_to_id(url)
         try:
             track = search_track(track_id)
         except SpotifyUnreachableException:
-            await ctx.respond(embed=SpotifyUnreachableEmbed)
+            await ctx.respond(embed=SpotifyUnreachableEmbed())
             return
 
         await ctx.respond(embed=SpotifyTrackEmbed(track))
@@ -94,19 +94,21 @@ if __name__ == '__main__':
         )
     ) -> None:
         if not url.startswith('https://open.spotify.com/playlist/'):
-            await ctx.respond(embed=IncorrectInputEmbed)
+            await ctx.respond(embed=IncorrectInputEmbed())
             return
 
         playlist_id = url_to_id(url)
         try:
             playlist = search_playlist(playlist_id)
         except SpotifyUnreachableException:
-            await ctx.respond(embed=SpotifyUnreachableEmbed)
+            await ctx.respond(embed=SpotifyUnreachableEmbed())
             return
 
         await ctx.respond(embed=SpotifyPlaylistEmbed(playlist))
 
-        await ctx.channel.send(embed=UnderCunstructionEmbed)
+        await ctx.channel.send(embed=UnderCunstructionEmbed(
+            description='YouTube searching is currently available only for `/track`.'
+        ))
         log.info('Playlist conversion issued.')
 
     bot.start(BOT_TOKEN)
