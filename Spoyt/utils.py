@@ -18,8 +18,8 @@ def check_env() -> bool:
         'SPOTIFY_CLIENT_SECRET': SPOTIFY_CLIENT_SECRET,
         'YOUTUBE_API_KEY': YOUTUBE_API_KEY
     }
-    for key in vars.keys():
-        if not vars.get(key):
+    for key, value in vars.items():
+        if value is None:
             env_is_valid = False
             log.critical(f'"{key}" environment varaible is not set')
     return env_is_valid
