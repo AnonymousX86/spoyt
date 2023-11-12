@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-from os import getenv
-
 from spotipy import Spotify, SpotifyClientCredentials
+from Spoyt.exceptions import SpotifyUnreachableException
 
 from Spoyt.logging import log
+from Spoyt.settings import SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
 
 
 class Track:
@@ -41,7 +41,7 @@ class Playlist:
         self.query_limit: int = payload.get('tracks', {}).get('limit')
 
     @property
-    def playlist_url(self) -> str:
+    def url(self) -> str:
         return f'https://open.spotify.com/playlist/{self.playlist_id}'
 
     @property
@@ -53,22 +53,40 @@ class Playlist:
         return len(self.tracks) == self.query_limit
 
 
+def url_to_id(url: str) -> str:
+    """
+    Removes trailing parameters like share source, then extractd ID.
+
+    For example this: "https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT?si=8a1b522f00744ee1",
+    becomes: "4cOdK2wGLETKBW3PvgPWqT".
+    """
+    return url.split('?')[0].split('&')[0].split('/')[-1]
+
+
 def spotify_connect() -> Spotify:
     return Spotify(
         auth_manager=SpotifyClientCredentials(
-            client_id=getenv('SPOTIFY_CLIENT_ID'),
-            client_secret=getenv('SPOTIFY_CLIENT_SECRET')
+            client_id=SPOTIFY_CLIENT_ID,
+            client_secret=SPOTIFY_CLIENT_SECRET
         )
     )
 
 # Search functions should not return `class Track` or `class Playlist`
 # because of checks if connections was successful during runtime.
 
-def search_track(track_id: str) -> dict:
+def search_track(track_id: str) -> Track:
     log.info(f'Searching track by ID "{track_id}"')
-    return spotify_connect().track(track_id=track_id)
+    track: dict | None = spotify_connect().track(track_id=track_id)
+    if not track:
+        log.error('Spotify unreachable')
+        raise SpotifyUnreachableException
+    return Track(track)
 
 
-def search_playlist(playlist_id: str) -> dict:
+def search_playlist(playlist_id: str) -> Playlist:
     log.info(f'Searching playlist by ID "{playlist_id}"')
-    return spotify_connect().playlist(playlist_id=playlist_id)
+    playlist: dict | None = spotify_connect().playlist(playlist_id=playlist_id)
+    if not playlist:
+        log.error('Spotify unreachable')
+        raise SpotifyUnreachableException
+    return Playlist(playlist)

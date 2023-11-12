@@ -1,5 +1,4 @@
-discord.py
-guilded.py
+py-cord
 rich
 requests
 spotipy
