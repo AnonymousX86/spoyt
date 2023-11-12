@@ -25,13 +25,19 @@ class Track:
     def track_url(self) -> str:
         return f'https://open.spotify.com/track/{self.track_id}'
 
+
+class User:
+    def __init__(self, payload: dict) -> None:
+        self.name: str = payload.get('display_name')
+        self.id: str = payload.get('id')
+        self.user_url: str = payload.get('external_urls', {}).get('spotify')
+        self.avatar_url: str = payload.get('images', [{}])[-1].get('url')
+
 class Playlist:
     def __init__(self, payload: dict) -> None:
         self.name: str = payload.get('name')
         self.description: str = payload.get('description')
         self.playlist_id: str = payload.get('id')
-        self.owner_name: str = payload.get('owner', {}).get('display_name')
-        self.owner_id: str = payload.get('owner', {}).get('id')
         self.cover_url: str = payload.get('images', [{}])[0].get('url')
         self.tracks: list[Track] = list(map(
             lambda a: Track(a.get('track', {})),
@@ -40,13 +46,11 @@ class Playlist:
         self.total_tracks: int = payload.get('tracks', {}).get('total')
         self.query_limit: int = payload.get('tracks', {}).get('limit')
 
+        self.owner: User = search_user(payload.get('owner', {}).get('id'))
+
     @property
     def url(self) -> str:
         return f'https://open.spotify.com/playlist/{self.playlist_id}'
-
-    @property
-    def owner_url(self) -> str:
-        return f'https://open.spotify.com/user/{self.owner_id}'
 
     @property
     def is_query_limited(self) -> bool:
@@ -96,3 +100,15 @@ def search_playlist(playlist_id: str) -> Playlist:
         log.error('Spotify unreachable')
         raise SpotifyUnreachableException
     return Playlist(playlist)
+
+
+def search_user(user_id: str) -> User:
+    log.info(f'Searching user by ID "{user_id}"')
+    try:
+        user: dict | None = spotify_connect().user(user=user_id)
+    except SpotifyException:
+        raise SpotifyNotFoundException
+    if not user:
+        log.error('Spotify unreachable')
+        raise SpotifyUnreachableException
+    return User(user)

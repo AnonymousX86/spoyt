@@ -131,10 +131,10 @@ class SpotifyPlaylistEmbed(BaseEmbed):
         self.description = description
         self.color = Color.green()
         self.set_thumbnail(url=playlist.cover_url)
-        self.add_field(
-            name='Owner',
-            value=f'[{playlist.owner_name}]({playlist.owner_url})',
-            inline=False
+        self.set_author(
+            name=playlist.owner.name,
+            url=playlist.owner.user_url,
+            icon_url=playlist.owner.avatar_url
         )
         first_tracks = '\n'.join(map(
             lambda a: f'- {markdown_url(a.track_url, a.name)}',
