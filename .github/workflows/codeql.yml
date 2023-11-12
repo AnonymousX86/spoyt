@@ -35,11 +35,11 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@v4.7.1
       with:
-        python-version: 3.11
-        cache: pip
-        architecture: x64
+        python-version: '3.11'
+        cache: 'pip'
+        architecture: 'x64'
         check-latest: true
-        cache-dependency-path: requirements.txt
+        cache-dependency-path: 'requirements.txt'
 
     - name: Autobuild
       uses: github/codeql-action/autobuild@v2
