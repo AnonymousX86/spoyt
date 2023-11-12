@@ -2,7 +2,7 @@
 from spotipy import Spotify, SpotifyClientCredentials
 from Spoyt.exceptions import SpotifyUnreachableException
 
-from Spoyt.logging import log
+from Spoyt.logger import log
 from Spoyt.settings import SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
 
 

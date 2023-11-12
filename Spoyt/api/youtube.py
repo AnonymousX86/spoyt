@@ -4,7 +4,7 @@ from json import loads as json_loads
 from requests import get as requests_get
 
 from Spoyt.exceptions import YouTubeException, YouTubeForbiddenException
-from Spoyt.logging import log
+from Spoyt.logger import log
 from Spoyt.settings import YOUTUBE_API_KEY
 
 

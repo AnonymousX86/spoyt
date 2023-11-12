@@ -11,7 +11,7 @@ from Spoyt.embeds import ErrorEmbed, IncorrectInputEmbed, SpotifyTrackEmbed, \
     SpotifyPlaylistEmbed, SpotifyUnreachableEmbed, YouTubeVideoEmbed, \
         UnderCunstructionEmbed
 from Spoyt.exceptions import SpotifyUnreachableException, YouTubeException
-from Spoyt.logging import log
+from Spoyt.logger import log
 from Spoyt.settings import BOT_TOKEN
 from Spoyt.utils import check_env
 

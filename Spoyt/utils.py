@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from Spoyt.logging import log
+from Spoyt.logger import log
 from Spoyt.settings import BOT_TOKEN, SPOTIFY_CLIENT_ID, \
     SPOTIFY_CLIENT_SECRET, YOUTUBE_API_KEY
 
