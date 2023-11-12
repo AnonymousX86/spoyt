@@ -49,8 +49,7 @@ if __name__ == '__main__':
             name='url',
             description='Starts with "https://open.spotify.com/track/..."',
             required=True
-        )
-    ) -> None:
+    )) -> None:
         if not url.startswith('https://open.spotify.com/track/'):
             await ctx.respond(embed=IncorrectInputEmbed())
             return
