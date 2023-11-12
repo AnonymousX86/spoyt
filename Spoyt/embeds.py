@@ -85,6 +85,12 @@ class ErrorEmbed(BaseEmbed):
         self.title = 'There was an error'
         self.color = Color.red()
 
+
+class CommandOnCooldownEmbed(ErrorEmbed):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.title = 'Command on cooldown'
+
 class IncorrectInputEmbed(ErrorEmbed):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)

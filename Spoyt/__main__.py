@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 from logging import INFO, basicConfig
 
-from discord import ApplicationContext, Bot, Option
-from discord.ext.commands import Cooldown
+from discord import ApplicationContext, Bot, DiscordException, Option
+from discord.ext.commands import BucketType, cooldown, CommandOnCooldown
 from rich.logging import RichHandler
 
 from Spoyt.api.spotify import search_track, search_playlist, url_to_id
 from Spoyt.api.youtube import search_video
-from Spoyt.embeds import ErrorEmbed, IncorrectInputEmbed, SpotifyPlaylistkNotFoundEmbed, SpotifyTrackEmbed, \
+from Spoyt.embeds import CommandOnCooldownEmbed, ErrorEmbed, IncorrectInputEmbed, SpotifyPlaylistkNotFoundEmbed, SpotifyTrackEmbed, \
     SpotifyPlaylistEmbed, SpotifyTrackNotFoundEmbed, SpotifyUnreachableEmbed, YouTubeVideoEmbed, \
         UnderCunstructionEmbed
 from Spoyt.exceptions import SpotifyNotFoundException, SpotifyUnreachableException, YouTubeException
@@ -34,14 +34,23 @@ if __name__ == '__main__':
     async def on_ready() -> None:
         log.info(f'Logged in as "{bot.user}"')
 
+    @bot.event
+    async def on_application_command_error(
+        ctx: ApplicationContext,
+        exception: DiscordException
+    ) -> None:
+        if isinstance(exception, CommandOnCooldown):
+            await ctx.respond(embed=CommandOnCooldownEmbed(
+                description=f'Retry in {int(exception.retry_after)} second(s).'
+            ))
+        else:
+            raise exception
+
     @bot.slash_command(
         name='track',
-        description='Search for a track',
-        cooldown=Cooldown(
-            rate=1,
-            per=5.0
-        ),
+        description='Search for a track'
     )
+    @cooldown(1, 5.0, BucketType.guild)
     async def track(
         ctx: ApplicationContext,
         url: Option(
@@ -80,12 +89,9 @@ if __name__ == '__main__':
 
     @bot.slash_command(
         name='playlist',
-        description='Search for a playlist',
-        cooldown=Cooldown(
-            rate=1,
-            per=30.0
-        ),
+        description='Search for a playlist'
     )
+    @cooldown(1, 30.0, BucketType.guild)
     async def playlist(
         ctx: ApplicationContext,
         url: Option(
