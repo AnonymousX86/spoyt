@@ -6,6 +6,10 @@ from Spoyt.api.youtube import YouTubeVideo
 from Spoyt.settings import MAX_QUERY
 from Spoyt.utils import markdown_url
 
+
+YOUTUBE_COLOR = Color.from_rgb(255, 0, 0)
+
+
 class BaseEmbed(Embed):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -149,7 +153,7 @@ class YouTubeVideoEmbed(BaseEmbed):
         super().__init__(*args, **kwargs)
         self.title=video.title
         self.description=markdown_url(video.video_link)
-        self.color = Color.dark_red()
+        self.color = YOUTUBE_COLOR
         self.set_thumbnail(url=video.video_thumbnail)
         self.add_field(
             name='Description',
