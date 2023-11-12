@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from spotipy import Spotify, SpotifyClientCredentials
-from Spoyt.exceptions import SpotifyUnreachableException
+from spotipy import Spotify, SpotifyException, SpotifyClientCredentials
 
+from Spoyt.exceptions import SpotifyNotFoundException, SpotifyUnreachableException
 from Spoyt.logger import log
 from Spoyt.settings import SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
 
@@ -76,7 +76,10 @@ def spotify_connect() -> Spotify:
 
 def search_track(track_id: str) -> Track:
     log.info(f'Searching track by ID "{track_id}"')
-    track: dict | None = spotify_connect().track(track_id=track_id)
+    try:
+        track: dict | None = spotify_connect().track(track_id=track_id)
+    except SpotifyException:
+        raise SpotifyNotFoundException
     if not track:
         log.error('Spotify unreachable')
         raise SpotifyUnreachableException
@@ -85,7 +88,10 @@ def search_track(track_id: str) -> Track:
 
 def search_playlist(playlist_id: str) -> Playlist:
     log.info(f'Searching playlist by ID "{playlist_id}"')
-    playlist: dict | None = spotify_connect().playlist(playlist_id=playlist_id)
+    try:
+        playlist: dict | None = spotify_connect().playlist(playlist_id=playlist_id)
+    except SpotifyException:
+        raise SpotifyNotFoundException
     if not playlist:
         log.error('Spotify unreachable')
         raise SpotifyUnreachableException

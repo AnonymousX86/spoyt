@@ -65,6 +65,18 @@ class VideoNotFound(NotFoundEmbed):
         super().__init__(*args, **kwargs)
         self.title = 'Video not found'
 
+
+class SpotifyTrackNotFoundEmbed(NotFoundEmbed):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.title = 'Spotify track not found'
+
+
+class SpotifyPlaylistkNotFoundEmbed(NotFoundEmbed):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.title = 'Spotify playlist not found'
+
 # Other errors
 
 class ErrorEmbed(BaseEmbed):

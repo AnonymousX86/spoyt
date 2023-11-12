@@ -28,3 +28,9 @@ class SpotifyUnreachableException(SpotifyException):
     def __init__(self, traceback='') -> None:
         message = 'Spotify is unreachable.'
         SpotifyException.__init__(self, f'{__class__.__name__}: {traceback or message}')
+
+
+class SpotifyNotFoundException(SpotifyException):
+    def __init__(self, traceback='') -> None:
+        message = 'Spotify track not found.'
+        SpotifyException.__init__(self, f'{__class__.__name__}: {traceback or message}')

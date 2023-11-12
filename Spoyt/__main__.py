@@ -7,10 +7,10 @@ from rich.logging import RichHandler
 
 from Spoyt.api.spotify import search_track, search_playlist, url_to_id
 from Spoyt.api.youtube import search_video
-from Spoyt.embeds import ErrorEmbed, IncorrectInputEmbed, SpotifyTrackEmbed, \
-    SpotifyPlaylistEmbed, SpotifyUnreachableEmbed, YouTubeVideoEmbed, \
+from Spoyt.embeds import ErrorEmbed, IncorrectInputEmbed, SpotifyPlaylistkNotFoundEmbed, SpotifyTrackEmbed, \
+    SpotifyPlaylistEmbed, SpotifyTrackNotFoundEmbed, SpotifyUnreachableEmbed, YouTubeVideoEmbed, \
         UnderCunstructionEmbed
-from Spoyt.exceptions import SpotifyUnreachableException, YouTubeException
+from Spoyt.exceptions import SpotifyNotFoundException, SpotifyUnreachableException, YouTubeException
 from Spoyt.logger import log
 from Spoyt.settings import BOT_TOKEN
 from Spoyt.utils import check_env
@@ -57,6 +57,9 @@ if __name__ == '__main__':
         track_id = url_to_id(url)
         try:
             track = search_track(track_id)
+        except SpotifyNotFoundException:
+            await ctx.respond(embed=SpotifyTrackNotFoundEmbed())
+            return
         except SpotifyUnreachableException:
             await ctx.respond(embed=SpotifyUnreachableEmbed())
             return
@@ -99,6 +102,9 @@ if __name__ == '__main__':
         playlist_id = url_to_id(url)
         try:
             playlist = search_playlist(playlist_id)
+        except SpotifyNotFoundException:
+            await ctx.respond(embed=SpotifyPlaylistkNotFoundEmbed())
+            return
         except SpotifyUnreachableException:
             await ctx.respond(embed=SpotifyUnreachableEmbed())
             return
