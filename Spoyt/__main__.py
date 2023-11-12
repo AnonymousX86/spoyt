@@ -110,4 +110,4 @@ if __name__ == '__main__':
         ))
         log.info('Playlist conversion issued.')
 
-    bot.start(BOT_TOKEN)
+    bot.run(BOT_TOKEN)
