@@ -27,11 +27,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
-      with:
-        languages: ${{ matrix.language }}
-
     - name: Setup Python
       uses: actions/setup-python@v4.7.1
       with:
@@ -40,6 +35,11 @@ jobs:
         architecture: 'x64'
         check-latest: true
         cache-dependency-path: 'requirements.txt'
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: ${{ matrix.language }}
 
     - name: Autobuild
       uses: github/codeql-action/autobuild@v2
