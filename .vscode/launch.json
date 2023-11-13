@@ -5,10 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Spoyt Discord",
+            "name": "Python: Spoyt",
             "type": "python",
             "request": "launch",
-            "module": "Spoyt.Discord",
+            "module": "Spoyt",
             "console": "integratedTerminal",
             "justMyCode": true
         }
