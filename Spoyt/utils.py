@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
+from os import environ
+
 from Spoyt.logger import log
-from Spoyt.settings import BOT_TOKEN, SPOTIFY_CLIENT_ID, \
-    SPOTIFY_CLIENT_SECRET, YOUTUBE_API_KEY
 
 
 def markdown_url(url: str, text: str = None) -> str:
@@ -12,14 +12,13 @@ def markdown_url(url: str, text: str = None) -> str:
 def check_env() -> bool:
     """Checks if all required environment varables are set."""
     env_is_valid = True
-    vars = {
-        'BOT_TOKEN': BOT_TOKEN,
-        'SPOTIFY_CLIENT_ID': SPOTIFY_CLIENT_ID,
-        'SPOTIFY_CLIENT_SECRET': SPOTIFY_CLIENT_SECRET,
-        'YOUTUBE_API_KEY': YOUTUBE_API_KEY
-    }
-    for key, value in vars.items():
-        if value is None:
+    for key in [
+        'BOT_TOKEN',
+        'SPOTIFY_CLIENT_ID',
+        'SPOTIFY_CLIENT_SECRET',
+        'YOUTUBE_API_KEY'
+    ]:
+        if key not in environ:
             env_is_valid = False
             log.critical(f'"{key}" environment varaible is not set')
     return env_is_valid
