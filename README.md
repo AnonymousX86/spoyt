@@ -6,8 +6,6 @@ Discord bot that allows you to "convert" Spotify links to YouTube videos.
 
 The project was created out of necessity. On a certain server there was a group of people using Spotify and another group using YouTube (Music). The first group could share songs with each other without hindrance. For this, the second could only theoretically listen to songs from Spotify, but in practice with great limitations and difficulties. That's when the idea for this bot was conceived. With this project, a group of Spotify users can share songs for both groups at once.
 
-Translated with www.DeepL.com/Translator (free version)
-
 ## Usage
 
 1. Invite the bot with this link: <https://discord.com/api/oauth2/authorize?client_id=948274806325903410&permissions=2147485696&scope=bot%20applications.commands>.
