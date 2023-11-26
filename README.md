@@ -14,7 +14,7 @@ The project was created out of necessity. On a certain server there was a group 
 
 ### Note
 
-YouTube searching currently applies only to `/track`. I'm currently inspecting YouTube API limiations.
+YouTube searching currently applies only to `/track`. I'm currently working on [YouTube API connector](https://github.com/AnonymousX86/yt-api).
 
 ## Support
 
